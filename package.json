@@ -1,0 +1,33 @@
+{
+  "name": "my-reads-server",
+  "version": "1.0.0",
+  "description": "MyReads Server for Udacity React Nanodegree",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc ./src/index.ts --lib es2015 && node ./src/index.js",
+    "test": "yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulomenezes/my-reads-server.git"
+  },
+  "author": "Paulo Menezes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paulomenezes/my-reads-server/issues"
+  },
+  "homepage": "https://github.com/paulomenezes/my-reads-server#readme",
+  "dependencies": {
+    "@types/mongodb": "^3.0.15",
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.16",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/mongoose": "^5.0.10"
+  }
+}
