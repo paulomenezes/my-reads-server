@@ -15,6 +15,6 @@ app.use(morgan('dev'));
 
 app.use('/users', UserController);
 
-app.listen(3000, () => {
-  console.log('MyReads listening on port 3000!');
+app.listen(8080, () => {
+  console.log('MyReads listening on port 8080!');
 });

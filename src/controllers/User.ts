@@ -27,6 +27,19 @@ router.route('/:id').get(async (req, res) => {
   }
 });
 
+router.route('/check').post(async (req, res) => {
+  try {
+    const user = await User.findOne({ [req.body.field]: req.body.value });
+    if (user) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.route('/login').post(async (req, res) => {
   try {
     if (req.body.user && req.body.password) {
