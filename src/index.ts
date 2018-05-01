@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import * as morgan from 'morgan';
 
 import UserController from './controllers/User';
+import BookShelfController from './controllers/BookShelf';
 
 const app = express();
 mongoose.connect('mongodb://localhost/myreads');
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(morgan('dev'));
 
 app.use('/users', UserController);
+app.use('/books', BookShelfController);
 
 app.listen(8080, () => {
   console.log('MyReads listening on port 8080!');

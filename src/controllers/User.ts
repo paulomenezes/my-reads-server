@@ -80,7 +80,7 @@ router.route('/').post(async (req, res) => {
 
     await user.save();
 
-    res.send(user._id);
+    res.send({ id: user._id });
   } catch (error) {
     res.status(400).send(error);
   }
