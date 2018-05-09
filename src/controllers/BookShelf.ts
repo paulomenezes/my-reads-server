@@ -5,7 +5,7 @@ import { BookShelf } from '../schemas/BookShelf';
 
 const router = Router();
 
-router.route('/:userId').get(async (req, res) => {
+router.route('/:userId/books').get(async (req, res) => {
   try {
     const shelves = await BookShelf.find({ user: req.params.userId });
 
@@ -16,7 +16,17 @@ router.route('/:userId').get(async (req, res) => {
 
     const books = await Book.find({ id: { $in: bookIds } });
 
-    res.send({ shelves, books });
+    res.send({ books });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.route('/:userId/shelves').get(async (req, res) => {
+  try {
+    const shelves = await BookShelf.find({ user: req.params.userId });
+
+    res.send({ shelves });
   } catch (error) {
     res.status(400).send(error);
   }
