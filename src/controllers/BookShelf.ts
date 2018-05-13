@@ -32,6 +32,17 @@ router.route('/:userId/shelves').get(async (req, res) => {
   }
 });
 
+router.route('/:bookId').get(async (req, res) => {
+  try {
+    const shelf = await BookShelf.findOne({ book: req.params.bookId });
+    const book = await Book.findOne({ id: req.params.bookId });
+
+    res.send({ book, shelf });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.route('/').post(async (req, res) => {
   try {
     let bookShelf = await BookShelf.findOne({ user: req.body.user, book: req.body.book.id });
@@ -45,8 +56,8 @@ router.route('/').post(async (req, res) => {
     bookShelf.date = new Date();
     await bookShelf.save();
 
-    const searchBook = await Book.find({ id: req.body.book.id });
-    if (!searchBook || searchBook.length === 0) {
+    const searchBook = await Book.findOne({ id: req.body.book.id });
+    if (!searchBook) {
       const book = new Book();
       book.id = req.body.book.id;
       book.kind = req.body.book.kind;
