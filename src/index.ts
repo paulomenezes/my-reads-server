@@ -20,4 +20,6 @@ app.use('/books', BookController);
 
 const port = process.env.PORT || 8080;
 
-app.listen(port);
+app.listen(port, () => {
+  console.log(`My Reads server listening port ${port}`);
+});
