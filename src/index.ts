@@ -8,7 +8,8 @@ import UserController from './controllers/User';
 import BookController from './controllers/Book';
 
 const app = express();
-mongoose.connect('mongodb://localhost/myreads');
+mongoose.connect('mongodb://paulo:pauloudacity@ds121960.mlab.com:21960/heroku_dhnprvlr');
+// mongoose.connect('mongodb://localhost/myreads');
 
 app.use(bodyParser.json());
 app.use(cors());
