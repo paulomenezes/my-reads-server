@@ -18,6 +18,4 @@ app.use(morgan('dev'));
 app.use('/users', UserController);
 app.use('/books', BookController);
 
-app.listen(8080, () => {
-  console.log('MyReads listening on port 8080!');
-});
+app.listen(8080, () => {});
