@@ -55,26 +55,39 @@ router.route('/').post(async (req, res) => {
     bookShelf.shelf = req.body.shelf;
     bookShelf.date = new Date();
     await bookShelf.save();
-
-    const searchBook = await Book.findOne({ id: req.body.book.id });
-    if (!searchBook) {
-      const book = new Book();
-      book.id = req.body.book.id;
-      book.kind = req.body.book.kind;
-      book.etag = req.body.book.etag;
-      book.selfLink = req.body.book.selfLink;
-      book.accessInfo = req.body.book.accessInfo;
-      book.saleInfo = req.body.book.saleInfo;
-      book.searchInfo = req.body.book.searchInfo;
-      book.volumeInfo = req.body.book.volumeInfo;
-
-      await book.save();
-    }
+    await saveBook(req.body.book);
 
     res.send({ id: bookShelf._id });
   } catch (error) {
     res.status(400).send(error);
   }
 });
+
+router.route('/books').post(async (req, res) => {
+  try {
+    req.body.books.forEach(saveBook);
+
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+const saveBook = async book => {
+  const searchBook = await Book.findOne({ id: book.id });
+  if (!searchBook) {
+    const newBook = new Book();
+    newBook.id = book.id;
+    newBook.kind = book.kind;
+    newBook.etag = book.etag;
+    newBook.selfLink = book.selfLink;
+    newBook.accessInfo = book.accessInfo;
+    newBook.saleInfo = book.saleInfo;
+    newBook.searchInfo = book.searchInfo;
+    newBook.volumeInfo = book.volumeInfo;
+
+    await newBook.save();
+  }
+};
 
 export default router;
