@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { Book } from '../schemas/Book';
 import { BookShelf } from '../schemas/BookShelf';
+import { BookReview } from '../schemas/BookReview';
 
 const router = Router();
 
@@ -34,10 +35,13 @@ router.route('/:userId/shelves').get(async (req, res) => {
 
 router.route('/:bookId').get(async (req, res) => {
   try {
-    const shelf = await BookShelf.findOne({ book: req.params.bookId });
     const book = await Book.findOne({ id: req.params.bookId });
+    const shelf = await BookShelf.findOne({ book: req.params.bookId });
+    const reviews = await BookReview.find({ book: req.params.bookId });
 
-    res.send({ book, shelf });
+    const rating = reviews.map(review => review.rating).reduce((previousValue, currentValue) => (previousValue += currentValue));
+
+    res.send({ book, shelf, reviews, rating });
   } catch (error) {
     res.status(400).send(error);
   }
