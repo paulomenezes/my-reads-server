@@ -52,6 +52,7 @@ router.route('/login').post(async (req, res) => {
         if (correctPassword) {
           res.send({
             _id,
+            id: _id,
             name,
             username,
             email

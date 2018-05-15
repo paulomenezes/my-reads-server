@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { Book } from '../schemas/Book';
+import { User } from '../schemas/User';
 import { BookShelf } from '../schemas/BookShelf';
 import { BookReview } from '../schemas/BookReview';
 
@@ -37,12 +38,19 @@ router.route('/:bookId').get(async (req, res) => {
   try {
     const book = await Book.findOne({ id: req.params.bookId });
     const shelf = await BookShelf.findOne({ book: req.params.bookId });
-    const reviews = await BookReview.find({ book: req.params.bookId });
+    const reviews = await BookReview.find({ book: req.params.bookId })
+      .populate('user')
+      .sort('-date');
 
-    const rating = reviews.map(review => review.rating).reduce((previousValue, currentValue) => (previousValue += currentValue));
+    let rating = 0;
+    if (reviews && reviews.length > 0) {
+      rating = reviews.map(review => review.rating).reduce((previousValue, currentValue) => (previousValue += currentValue));
+      rating /= reviews.length;
+    }
 
     res.send({ book, shelf, reviews, rating });
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 });
